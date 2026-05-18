@@ -1,5 +1,7 @@
 class Npc:
-    def __init__(self,name,hp):
+    def __init__(self,name,hp,mp):
         self.name = name
-        self.maxhp = hp
-        self.hp = self.maxhp
+        self.hp = hp
+        self.mp = mp
+        self.inventory = []
+        self.moveset = []
