@@ -44,7 +44,7 @@ class Unit:
 
     def takeTurn(self):
         if(self.party.player_lead):
-            player_input()
+            player_input(self)
         else:
             self.attack(enemy_party.get_random())
 
@@ -56,8 +56,8 @@ class Party:
     player_lead = False
 
     def get_random(self):
-        random.randint(0,len(self.members))
-
+        x = random.randint(0,len(self.members)-1)
+        return self.members[x]
 
 class Move:
     def __init__(self, name, dmg):
@@ -67,20 +67,35 @@ class Move:
 def create_player(name):
     return create_unit(name,20)
 
-def select_unit(party):
+def select_unit(unit, party):
     i = 0
-    for unit in party:
-        print()
+    print()
+    print("Select unit")
+    print()
+    for unit in party.members:
+        print("%s) %s" % (i+1, unit.name))
+        i+=1
+    print("0) Nevermind")
+    print()
+    num = input()
 
-def player_input():
+    if(num>len(party.members) or num<0):
+        return select_unit(unit, party)
+    elif(num==0):
+        player_input(unit)
+    else:
+        return party.members[num]
+def player_input(unit):
     print('What will you do?')
     print("1) Attack")
     print("2) Use Item")
     print("3) Use Spell")
     print("4) Escape")
     act = input()
-    if(act == 1):
-        print("attack!")
+    if(act == '1'):
+        unit.attack(select_unit(unit, enemy_party))
+    else:
+        player_input(unit)
 
 
 def create_unit(name,hp):
