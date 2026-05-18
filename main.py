@@ -1,6 +1,9 @@
 import random
-
 import units
+import time
+import moves
+from moves import Heal, Resurrect
+
 
 class Battle:
     turn_order = []
@@ -16,6 +19,7 @@ class Battle:
             unit.battle = self
 
     def next(self):
+        time.sleep(1)
         self.current = self.turn_order[(self.turn_order.index(self.current) + 1) % len(self.turn_order)]
         if(self.current.isDead):
             self.next()
@@ -53,11 +57,13 @@ if __name__ == '__main__':
     # print('Input your name.')
     name = "Max"
     player = create_player(name)
-    enemy = create_unit('Goblin',15)
-    player_party = Party([player])
+    trey = create_unit("Trey",25)
+    goblin = create_unit('Goblin',15)
+    mosquito = create_unit("Mosquito",15)
+    siren = create_unit("Siren",30)
+    player_party = Party([player.addMoves([Heal(),Resurrect()]),trey])
     player_party.player_lead = True
-    enemy_party  = Party([enemy])
-    enemy.stats()
+    enemy_party  = Party([goblin,mosquito,siren])
     battle = Battle(player_party,enemy_party)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
